@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<style>
+ body {
+        font-family: 'Lato', sans-serif;
+    }
+
+    .progress {
+        height: 40px;
+    }
+
+    .control-label {
+        text-align: left !important;
+        padding-bottom: 7px;
+    }
+
+    .form-horizontal {
+        padding: 25px 20px;
+
+    }
+
+
+
+    .block-help {
+        font-weight: 300;
+    }
+
+    .terms {
+        text-decoration: underline;
+    }
+
+    .modal {
+        text-align: center;
+        padding: 0!important;
+    }
+
+    .modal:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -4px;
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    .divider {
+        position: absolute;
+        height: 2px;
+        border: 1px solid #eee;
+        width: 100%;
+        top: 10px;
+        z-index: -5;
+    }
+
+    .ex-account {
+        position: relative;
+    }
+
+    .ex-account p {
+        background-color: rgba(255, 255, 255, 0.41);
+    }
+
+
+    .fa-file-text {
+        color: #edda39;
+    }
+
+    .mar-top-bot-50 {
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+<script>
+$(document).ready(function() {
+        $('#email').blur(function() {
+            var email = $('#email').val();
+            if (IsEmail(email) == false) {
+                $('#sign-up').attr('disabled', true);
+                $('#popover-email').removeClass('hide');
+            } else {
+                $('#popover-email').addClass('hide');
+            }
+        });
+        $('#password').keyup(function() {
+            var password = $('#password').val();
+            if (checkStrength(password) == false) {
+                $('#sign-up').attr('disabled', true);
+            }
+        });
+
+        $('#sign-up').hover(function() {
+            if ($('#sign-up').prop('disabled')) {
+                $('#sign-up').popover({
+                    html: true,
+                    trigger: 'hover',
+                    placement: 'below',
+                    offset: 20,
+                    content: function() {
+                        return $('#sign-up-popover').html();
+                    }
+                });
+            }
+        });
+
+
+
+        function checkStrength(password) {
+            var strength = 0;
+
+
+            //If password contains both lower and uppercase characters, increase strength value.
+            if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+                strength += 1;
+
+                $('#popover-password-top').addClass('hide');
+
+
+            } else {
+
+                $('#popover-password-top').removeClass('hide');
+            }
+
+            //If it has numbers and characters, increase strength value.
+            if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+                strength += 1;
+
+                $('#popover-password-top').addClass('hide');
+
+            } else {
+
+                $('#popover-password-top').removeClass('hide');
+            }
+
+            //If it has one special character, increase strength value.
+            if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+                strength += 1;
+
+                $('#popover-password-top').addClass('hide');
+
+            } else {
+
+                $('#popover-password-top').removeClass('hide');
+            }
+
+            if (password.length > 7) {
+                strength += 1;
+
+                $('#popover-password-top').addClass('hide');
+
+            } else {
+
+                $('#popover-password-top').removeClass('hide');
+            }
+
+
+
+
+            // If value is less than 2
+
+            if (strength < 2) {
+
+                $('#password-strength').addClass('progress-bar-success');
+
+
+                $('#password-strength').css('width', '10%');
+                 $('#password-strength').html("10%");
+
+            } else if (strength == 2) {
+
+                $('#password-strength').removeClass('progress-bar-danger');
+                $('#password-strength').addClass('progress-bar-success');
+
+                $('#password-strength').css('width', '60%');
+                 $('#password-strength').html("60%");
+
+                return 'Week'
+            } else if (strength == 4) {
+
+                $('#password-strength').removeClass('progress-bar-success');
+                $('#password-strength').addClass('progress-bar-success');
+
+                $('#password-strength').css('width', '100%');
+                    $('#password-strength').html("100%");
+                return 'Strong'
+            }
+
+        }
+
+    });
+</script>
+
+</head>
+<body>
+ <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+                <form class="form-horizontal mar-top-bot-50" id="validateForm" action="signup.html">
+                    <h4>Enter your email id and password here:</h4>
+                    <fieldset>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                          <label class="col-md-12 control-label" for="email">Email address:</label>
+                          <div class="col-md-12">
+                            <input type="email" class="form-control input-md" id="email" data-plaement="bottom" data-toggle="popover" data-container="body" type="button" data-html="true" placeholder="">
+                            <label class="col-md-12 control-label" for="passwordinput">Password:</label>
+                            <div class="col-md-12">
+                                <input id="password" name="password" type="password" placeholder="" class="form-control input-md" data-placement="bottom" data-toggle="popover" data-container="body" type="button" data-html="true">
+
+                                 <br><br>
+                                    <div class="progress" id="p1">
+                                        <div id="password-strength" class="progress-bar progress-bar-active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+                                        0%</div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+</body>
+</html>
